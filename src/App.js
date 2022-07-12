@@ -27,7 +27,7 @@ class App extends Component {
                   }
                 }, () => {
                     console.log(this.state);
-                    //Hello world!
+                    console.log("TEST");
                 });
 
             }} 
