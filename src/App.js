@@ -1,41 +1,45 @@
 import {Component} from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
+
 
 class App extends Component {
   constructor() {
       super(); 
+
       this.state = {
-          name: {firstname: 'Valentyn', lastname: 'Valentynsson'},
-          company: 'ARDA - ÍSLAND'
-      }
+        monsters: [], // End of monster array in the state method
+      }; // End of state method 
+    
+      console.log('constructor');
   }  
   
+  componentDidMount() {
+    
+    console.log('componentDidMount');
+
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((response) => response.json())
+      .then((users) => this.setState(() => {
+          return {monsters: users}
+      },
+      () => {
+         //console.log(this.state.monsters);
+      }
+      ));
+  }
+
   render(){
+      console.log('Render');
       return (
-
-       <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Hi {this.state.name.firstname} {this.state.name.lastname}, I work at {this.state.company}
-            </p>
-            <button onClick= {() => {
-                this.setState((state, props) => {
-                  return {
-                    name: {firstname: 'Andrei', lastname: 'Fedorec'},
-                  }
-                }, () => {
-                    console.log(this.state);
-                    console.log("TEST");
-                });
-
-            }} 
-            >
-            Change Name
-            </button>
-          </header>
-        </div>
+      <div className="App">
+          {
+            // we are using map method to iterate through array setting up id number to the object and push object 
+            this.state.monsters.map((monster) => {
+                return <div key={monster.id}> <h1>{monster.name}</h1></div>
+            })
+          }
+      </div>
       );
     }
 }
